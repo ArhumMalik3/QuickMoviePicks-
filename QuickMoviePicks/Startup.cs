@@ -12,6 +12,8 @@ using Microsoft.EntityFrameworkCore;
 using QuickMoviePicks.Data;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using System.Security.Claims;
+
 
 namespace QuickMoviePicks
 {
@@ -37,12 +39,17 @@ namespace QuickMoviePicks
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(
                     Configuration.GetConnectionString("DefaultConnection")));
-            services.AddDefaultIdentity<IdentityUser>()
+            services.AddIdentityCore<IdentityUser>()
                 .AddEntityFrameworkStores<ApplicationDbContext>()
-                .AddDefaultUI()
-            .AddDefaultTokenProviders();
+                .AddDefaultTokenProviders();
+            
+
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+
+            services.AddScoped<ClaimsPrincipal>(s =>
+            s.GetService<IHttpContextAccessor>().HttpContext.User);
+            
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
