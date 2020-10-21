@@ -33,7 +33,7 @@ namespace QuickMoviePicks.Controllers
                 return NotFound();
             }
 
-            var privateGroup = await _context.PrivateGroups
+            PrivateGroup privateGroup = await _context.PrivateGroups
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (privateGroup == null)
             {
