@@ -23,6 +23,9 @@ namespace QuickMoviePicks.Models
         public string country { get; set; }
 
 
+        [ForeignKey("Private Group")]
+        public int? PrivateGroupId { get; set; }
+        public PrivateGroup PrivateGroup { get; set; }
 
         [ForeignKey("IdentityUser")]
         public string IdentityUserId { get; set; }
