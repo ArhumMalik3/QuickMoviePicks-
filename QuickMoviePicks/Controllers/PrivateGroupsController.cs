@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using QuickMoviePicks.Data;
 using QuickMoviePicks.Models;
+using QuickMoviePicks.ViewModels;
 
 namespace QuickMoviePicks.Controllers
 {
@@ -40,7 +41,13 @@ namespace QuickMoviePicks.Controllers
                 return NotFound();
             }
 
-            return View(privateGroup);
+            PrivateGroupDetailsViewModel viewModel = new PrivateGroupDetailsViewModel();
+            viewModel.PrivateGroup = privateGroup;
+
+            List<MovieWatcher> movieWatchers = await _context.MovieWatchers.Where(m => m.MyPrivateGroup == privateGroup).ToListAsync();
+
+
+            return View(viewModel);
         }
 
         // GET: PrivateGroups/Create

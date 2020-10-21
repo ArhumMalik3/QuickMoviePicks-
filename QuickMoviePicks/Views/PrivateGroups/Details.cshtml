@@ -1,4 +1,4 @@
-﻿@model QuickMoviePicks.Models.PrivateGroup
+﻿@model QuickMoviePicks.ViewModels.PrivateGroupDetailsViewModel
 
 @{
     ViewData["Title"] = "Details";
@@ -12,20 +12,20 @@
     <hr />
     <dl class="dl-horizontal">
         <dt>
-            @Html.DisplayNameFor(model => model.Name)
+            @Html.DisplayNameFor(model => model.PrivateGroup.Name)
         </dt>
         <dd>
-            @Html.DisplayFor(model => model.Name)
+            @Html.DisplayFor(model => model.PrivateGroup.Name)
         </dd>
         <dt>
-            @Html.DisplayNameFor(model => model.Pin)
+            @Html.DisplayNameFor(model => model.PrivateGroup.Pin)
         </dt>
         <dd>
-            @Html.DisplayFor(model => model.Pin)
+            @Html.DisplayFor(model => model.PrivateGroup.Pin)
         </dd>
     </dl>
 </div>
 <div>
-    <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> |
+    <a asp-action="Edit" asp-route-id="@Model.PrivateGroup.Id">Edit</a> |
     <a asp-action="Index">Back to List</a>
 </div>
