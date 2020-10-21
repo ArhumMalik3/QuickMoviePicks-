@@ -4,6 +4,7 @@ using System.Text;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using QuickMoviePicks.Models;
 
 namespace QuickMoviePicks.Data
 {
@@ -22,11 +23,18 @@ namespace QuickMoviePicks.Data
             .HasData(
             new IdentityRole
             {
-                Name = "Customer",
-                NormalizedName = "CUSTOMER"
+                Name = "Movie Watcher",
+                NormalizedName = "MOVIEWATCHER"
             }
             );
         }
+
+        public DbSet<MovieWatcher> MovieWatchers { get; set; }
+
+        public DbSet<PrivateGroup> PrivateGroups { get; set; }
+
+        public DbSet<Questionnaire> Questionnaires { get; set; }
+
 
     }
 }

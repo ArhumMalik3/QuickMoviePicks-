@@ -12,15 +12,15 @@ namespace QuickMoviePicks.Models
         public int Id { get; set; }
 
         [Display(Name = "Genre")]
-        public string genre { get; set; }
+        public string Genre { get; set; }
 
         [Display(Name = "Director")]
-        public string director { get; set; }
+        public string Director { get; set; }
 
         [Display(Name = "Actor")]
-        public string actor { get; set; }
+        public string Actor { get; set; }
 
         [Display(Name = "Country")]
-        public string country { get; set; }
+        public string Country { get; set; }
     }
 }

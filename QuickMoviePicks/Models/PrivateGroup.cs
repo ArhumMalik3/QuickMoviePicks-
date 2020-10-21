@@ -12,6 +12,9 @@ namespace QuickMoviePicks.Models
         public int Id { get; set; }
 
         [Display(Name = "Name")]
-        public string name { get; set; }
+        public string Name { get; set; }
+
+        [Display(Name = "Pin")]
+        public int Pin { get; set; }
     }
 }

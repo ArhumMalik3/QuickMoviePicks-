@@ -14,21 +14,29 @@ namespace QuickMoviePicks.Models
         public int Id { get; set; }
 
         [Display(Name = "First Name")]
-        public string firstName { get; set; }
+        public string FirstName { get; set; }
 
         [Display(Name = "Last Name")]
-        public string lastName { get; set; }
+        public string LastName { get; set; }
 
         [Display(Name = "Country")]
-        public string country { get; set; }
+        public string Country { get; set; }
 
 
-        [ForeignKey("Private Group")]
-        public int? PrivateGroupId { get; set; }
-        public PrivateGroup PrivateGroup { get; set; }
+        //[ForeignKey("Private Group")]
+        //public int? PrivateGroupId { get; set; }
+        //public PrivateGroup PrivateGroup { get; set; }
+
+        public virtual PrivateGroup MyPrivateGroup { get; set; }
+
+        [ForeignKey("Questionnaire")]
+        public int? QuestionnaireId { get; set; }
+        public Questionnaire Questionnaire { get; set; }
 
         [ForeignKey("IdentityUser")]
         public string IdentityUserId { get; set; }
         public IdentityUser IdentityUser { get; set; }
+
+
     }
 }
