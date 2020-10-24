@@ -63,6 +63,17 @@ namespace QuickMoviePickz.Controllers
             return View(movieWatcher);
         }
 
+        public ActionResult PickGroup()
+        {
+            ViewData["Groups"] = "Hey";
+            return View();
+        }
+
+        public ActionResult JoinGroup()
+        {
+            return View();
+        }
+
         // GET: MovieWatchers/Create
         public IActionResult Create()
         {
