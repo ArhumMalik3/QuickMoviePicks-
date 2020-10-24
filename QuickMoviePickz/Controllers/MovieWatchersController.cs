@@ -76,8 +76,19 @@ namespace QuickMoviePickz.Controllers
             return View();
         }
 
-        public ActionResult JoinGroup()
+
+        [HttpGet]
+        public IActionResult JoinGroup()
         {
+            return View();
+        }
+
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult JoinGroup(int groupPin)
+        {
+
             return View();
         }
 
