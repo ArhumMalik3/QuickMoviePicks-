@@ -65,7 +65,14 @@ namespace QuickMoviePickz.Controllers
 
         public ActionResult PickGroup()
         {
-            ViewData["Groups"] = "Hey";
+            Random rand = new Random();
+            int value = rand.Next(100000, 999999);
+            PrivateGroup privateGroup = new PrivateGroup();
+            privateGroup.Id = 1;
+            privateGroup.Pin = value;
+            privateGroup.Name = "Giraffe";
+
+            ViewBag.GroupPin= privateGroup.Pin;
             return View();
         }
 
