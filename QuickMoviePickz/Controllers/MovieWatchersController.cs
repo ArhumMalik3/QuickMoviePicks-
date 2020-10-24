@@ -34,6 +34,10 @@ namespace QuickMoviePickz.Controllers
                 
             }
             
+            if (movieWatcher != null)
+            {
+                return RedirectToAction("Edit");
+            }
             return View("Details", movieWatcher);
             //var applicationDbContext = _context.MovieWatchers.Include(m => m.IdentityUser).Include(m => m.Questionnaire);
             //return View(await applicationDbContext.ToListAsync());
