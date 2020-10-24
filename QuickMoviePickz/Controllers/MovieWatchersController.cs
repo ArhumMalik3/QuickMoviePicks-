@@ -63,7 +63,7 @@ namespace QuickMoviePickz.Controllers
             return View(movieWatcher);
         }
 
-        public ActionResult PickGroup()
+        public ActionResult MakeGroup()
         {
             Random rand = new Random();
             int value = rand.Next(100000, 999999);
@@ -88,16 +88,17 @@ namespace QuickMoviePickz.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult JoinGroup(int groupPin)
         {
-
+            ViewBag.Pin = groupPin;
             return View();
         }
 
         // GET: MovieWatchers/Create
         public IActionResult Create()
         {
-            ViewData["IdentityUserId"] = new SelectList(_context.Users, "Id", "Id");
-            ViewData["QuestionnaireId"] = new SelectList(_context.Questionnaires, "Id", "Id");
-            return View();
+            MovieWatcher movieWatcher = new MovieWatcher();
+            //ViewData["IdentityUserId"] = new SelectList(_context.Users, "Id", "Id");
+            //ViewData["QuestionnaireId"] = new SelectList(_context.Questionnaires, "Id", "Id");
+            return View(movieWatcher);
         }
 
         // POST: MovieWatchers/Create
@@ -105,17 +106,20 @@ namespace QuickMoviePickz.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,FirstName,LastName,Country,QuestionnaireId,IdentityUserId")] MovieWatcher movieWatcher)
+        public IActionResult Create(MovieWatcher movieWatcher)
         {
             if (ModelState.IsValid)
             {
+                var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
+                movieWatcher.IdentityUserId = userId;
                 _context.Add(movieWatcher);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                _context.SaveChanges();
+                return RedirectToAction("Create", "Questionnaire");
+
             }
-            ViewData["IdentityUserId"] = new SelectList(_context.Users, "Id", "Id", movieWatcher.IdentityUserId);
-            ViewData["QuestionnaireId"] = new SelectList(_context.Questionnaires, "Id", "Id", movieWatcher.QuestionnaireId);
-            return View(movieWatcher);
+            
+
+            return RedirectToAction("Details");
         }
 
         // GET: MovieWatchers/Edit/5
