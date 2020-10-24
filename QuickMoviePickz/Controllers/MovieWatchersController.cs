@@ -63,17 +63,40 @@ namespace QuickMoviePickz.Controllers
             return View(movieWatcher);
         }
 
-        public ActionResult MakeGroup()
+        [HttpGet]
+        public IActionResult MakeGroup()
         {
             Random rand = new Random();
             int value = rand.Next(100000, 999999);
             PrivateGroup privateGroup = new PrivateGroup();
-            privateGroup.Id = 1;
+            
             privateGroup.Pin = value;
-            privateGroup.Name = "Giraffe";
+            
 
-            ViewBag.GroupPin= privateGroup.Pin;
-            return View();
+           
+            return View(privateGroup);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult MakeGroup(PrivateGroup privateGroup)
+        {
+            if (ModelState.IsValid)
+            {
+                //_context.Add(address);
+
+
+                var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
+                var movieWatcher = _context.MovieWatchers.Where(m => m.IdentityUserId == userId).First();
+                movieWatcher.MyPrivateGroup = privateGroup;
+                _context.MovieWatchers.Update(movieWatcher);
+                _context.SaveChanges();
+
+
+                return RedirectToAction("Details");
+
+            }
+            return View(privateGroup);
         }
 
 
@@ -114,7 +137,7 @@ namespace QuickMoviePickz.Controllers
                 movieWatcher.IdentityUserId = userId;
                 _context.Add(movieWatcher);
                 _context.SaveChanges();
-                return RedirectToAction("Create", "Questionnaire");
+                return RedirectToAction("Create", "Questionnaires");
 
             }
             
