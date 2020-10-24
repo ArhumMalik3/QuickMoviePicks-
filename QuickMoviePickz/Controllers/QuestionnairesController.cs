@@ -7,29 +7,25 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using QuickMoviePickz.Data;
 using QuickMoviePickz.Models;
-using QuickMoviePickz.ViewModels;
 
 namespace QuickMoviePickz.Controllers
 {
-    public class PrivateGroupsController : Controller
+    public class QuestionnairesController : Controller
     {
         private readonly ApplicationDbContext _context;
 
-        public PrivateGroupsController(ApplicationDbContext context)
+        public QuestionnairesController(ApplicationDbContext context)
         {
             _context = context;
         }
 
-        // GET: PrivateGroups
+        // GET: Questionnaires
         public async Task<IActionResult> Index()
         {
-            Genres genres = new Genres();
-            await genres.GetGenres();
-
-            return View(await _context.PrivateGroups.ToListAsync());
+            return View(await _context.Questionnaires.ToListAsync());
         }
 
-        // GET: PrivateGroups/Details/5
+        // GET: Questionnaires/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -37,45 +33,39 @@ namespace QuickMoviePickz.Controllers
                 return NotFound();
             }
 
-            var privateGroup = await _context.PrivateGroups
+            var questionnaire = await _context.Questionnaires
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (privateGroup == null)
+            if (questionnaire == null)
             {
                 return NotFound();
             }
 
-            PrivateGroupDetailsViewModel viewModel = new PrivateGroupDetailsViewModel();
-            viewModel.PrivateGroup = privateGroup;
-
-            List<MovieWatcher> movieWatchers = await _context.MovieWatchers.Where(m => m.MyPrivateGroup == privateGroup).ToListAsync();
-
-
-            return View(viewModel);
+            return View(questionnaire);
         }
 
-        // GET: PrivateGroups/Create
+        // GET: Questionnaires/Create
         public IActionResult Create()
         {
             return View();
         }
 
-        // POST: PrivateGroups/Create
+        // POST: Questionnaires/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to, for 
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Name,Pin")] PrivateGroup privateGroup)
+        public async Task<IActionResult> Create([Bind("Id,Genre,Director,Actor,Country")] Questionnaire questionnaire)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(privateGroup);
+                _context.Add(questionnaire);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return View(privateGroup);
+            return View(questionnaire);
         }
 
-        // GET: PrivateGroups/Edit/5
+        // GET: Questionnaires/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -83,22 +73,22 @@ namespace QuickMoviePickz.Controllers
                 return NotFound();
             }
 
-            var privateGroup = await _context.PrivateGroups.FindAsync(id);
-            if (privateGroup == null)
+            var questionnaire = await _context.Questionnaires.FindAsync(id);
+            if (questionnaire == null)
             {
                 return NotFound();
             }
-            return View(privateGroup);
+            return View(questionnaire);
         }
 
-        // POST: PrivateGroups/Edit/5
+        // POST: Questionnaires/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to, for 
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Pin")] PrivateGroup privateGroup)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Genre,Director,Actor,Country")] Questionnaire questionnaire)
         {
-            if (id != privateGroup.Id)
+            if (id != questionnaire.Id)
             {
                 return NotFound();
             }
@@ -107,12 +97,12 @@ namespace QuickMoviePickz.Controllers
             {
                 try
                 {
-                    _context.Update(privateGroup);
+                    _context.Update(questionnaire);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!PrivateGroupExists(privateGroup.Id))
+                    if (!QuestionnaireExists(questionnaire.Id))
                     {
                         return NotFound();
                     }
@@ -123,10 +113,10 @@ namespace QuickMoviePickz.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(privateGroup);
+            return View(questionnaire);
         }
 
-        // GET: PrivateGroups/Delete/5
+        // GET: Questionnaires/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -134,30 +124,30 @@ namespace QuickMoviePickz.Controllers
                 return NotFound();
             }
 
-            var privateGroup = await _context.PrivateGroups
+            var questionnaire = await _context.Questionnaires
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (privateGroup == null)
+            if (questionnaire == null)
             {
                 return NotFound();
             }
 
-            return View(privateGroup);
+            return View(questionnaire);
         }
 
-        // POST: PrivateGroups/Delete/5
+        // POST: Questionnaires/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var privateGroup = await _context.PrivateGroups.FindAsync(id);
-            _context.PrivateGroups.Remove(privateGroup);
+            var questionnaire = await _context.Questionnaires.FindAsync(id);
+            _context.Questionnaires.Remove(questionnaire);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool PrivateGroupExists(int id)
+        private bool QuestionnaireExists(int id)
         {
-            return _context.PrivateGroups.Any(e => e.Id == id);
+            return _context.Questionnaires.Any(e => e.Id == id);
         }
     }
 }
