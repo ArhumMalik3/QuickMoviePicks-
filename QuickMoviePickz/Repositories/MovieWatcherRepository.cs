@@ -18,5 +18,20 @@ namespace QuickMoviePickz.Repositories
             //each member can then vote on which one they liked the best 
             // display the movie choice and all other votes
         }
+
+        //internal static List<Animal> GetAnimals()
+        //{
+        //    List<Animal> allAnimals = db.Animals.ToList();
+
+        //    return allAnimals;
+        //}
+
+        //internal static Animal GetAnimalByID(int id)
+        //{
+
+        //    Animal animal = db.Animals.Where(a => a.AnimalId == id).Single();
+
+        //    return animal;
+        //}
     }
 }

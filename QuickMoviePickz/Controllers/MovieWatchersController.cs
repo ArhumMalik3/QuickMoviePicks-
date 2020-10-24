@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -22,8 +23,20 @@ namespace QuickMoviePickz.Controllers
         // GET: MovieWatchers
         public async Task<IActionResult> Index()
         {
-            var applicationDbContext = _context.MovieWatchers.Include(m => m.IdentityUser).Include(m => m.Questionnaire);
-            return View(await applicationDbContext.ToListAsync());
+            var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var movieWatcher = _context.MovieWatchers.Where(m => m.IdentityUserId ==
+            userId).SingleOrDefault();
+            
+            if (movieWatcher == null)
+            {
+
+                return RedirectToAction("Create");
+                
+            }
+            
+            return View("Details", movieWatcher);
+            //var applicationDbContext = _context.MovieWatchers.Include(m => m.IdentityUser).Include(m => m.Questionnaire);
+            //return View(await applicationDbContext.ToListAsync());
         }
 
         // GET: MovieWatchers/Details/5
