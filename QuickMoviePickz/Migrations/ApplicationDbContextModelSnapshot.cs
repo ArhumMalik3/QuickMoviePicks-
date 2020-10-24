@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using QuickMoviePickz.Data;
 
-namespace QuickMoviePickz.Data.Migrations
+namespace QuickMoviePickz.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
     partial class ApplicationDbContextModelSnapshot : ModelSnapshot
@@ -15,7 +15,7 @@ namespace QuickMoviePickz.Data.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "3.1.6")
+                .HasAnnotation("ProductVersion", "3.1.9")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
@@ -48,9 +48,9 @@ namespace QuickMoviePickz.Data.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "195f06c5-e745-4c94-8ef1-a48edc3141a4",
-                            ConcurrencyStamp = "2cd77c80-d8d9-42fb-bba3-d42ec6cd819f",
-                            Name = "Movie Watcher",
+                            Id = "12ed0c0c-d61a-425c-b96c-8b8fdae825b3",
+                            ConcurrencyStamp = "b5029185-f536-4532-bfde-6f73336ccc1b",
+                            Name = "MovieWatcher",
                             NormalizedName = "MOVIEWATCHER"
                         });
                 });
@@ -224,6 +224,33 @@ namespace QuickMoviePickz.Data.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
+            modelBuilder.Entity("QuickMoviePickz.Models.MovieRanking", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("MovieRating1")
+                        .HasColumnType("int");
+
+                    b.Property<int>("MovieRating2")
+                        .HasColumnType("int");
+
+                    b.Property<int>("MovieRating3")
+                        .HasColumnType("int");
+
+                    b.Property<int>("MovieRating4")
+                        .HasColumnType("int");
+
+                    b.Property<int>("MovieRating5")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("MovieRankings");
+                });
+
             modelBuilder.Entity("QuickMoviePickz.Models.MovieWatcher", b =>
                 {
                     b.Property<int>("Id")
@@ -267,6 +294,9 @@ namespace QuickMoviePickz.Data.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<int?>("MovieRankingId")
+                        .HasColumnType("int");
+
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
@@ -274,6 +304,8 @@ namespace QuickMoviePickz.Data.Migrations
                         .HasColumnType("int");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("MovieRankingId");
 
                     b.ToTable("PrivateGroups");
                 });
@@ -366,6 +398,13 @@ namespace QuickMoviePickz.Data.Migrations
                     b.HasOne("QuickMoviePickz.Models.Questionnaire", "Questionnaire")
                         .WithMany()
                         .HasForeignKey("QuestionnaireId");
+                });
+
+            modelBuilder.Entity("QuickMoviePickz.Models.PrivateGroup", b =>
+                {
+                    b.HasOne("QuickMoviePickz.Models.MovieRanking", "MovieRanking")
+                        .WithMany()
+                        .HasForeignKey("MovieRankingId");
                 });
 #pragma warning restore 612, 618
         }

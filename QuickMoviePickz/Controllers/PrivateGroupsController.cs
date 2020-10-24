@@ -53,6 +53,16 @@ namespace QuickMoviePickz.Controllers
             return View(viewModel);
         }
 
+        public IActionResult RankMovies()
+        {
+            string Movie1;
+            string Movie2;
+            string Movie3;
+            string Movie4;
+            string Movie5;
+            return View();
+        }
+
         // GET: PrivateGroups/Create
         public IActionResult Create()
         {

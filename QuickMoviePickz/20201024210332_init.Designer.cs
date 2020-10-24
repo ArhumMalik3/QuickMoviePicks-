@@ -7,17 +7,17 @@ using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using QuickMoviePickz.Data;
 
-namespace QuickMoviePickz.Data.Migrations
+namespace QuickMoviePickz.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20201021213306_init")]
+    [Migration("20201024210332_init")]
     partial class init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "3.1.6")
+                .HasAnnotation("ProductVersion", "3.1.9")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
@@ -50,9 +50,9 @@ namespace QuickMoviePickz.Data.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "49091afa-9231-4ebb-8c5e-27a81371905d",
-                            ConcurrencyStamp = "7c6cc472-d3a1-4a71-9d07-8c486a9da809",
-                            Name = "Movie Watcher",
+                            Id = "12ed0c0c-d61a-425c-b96c-8b8fdae825b3",
+                            ConcurrencyStamp = "b5029185-f536-4532-bfde-6f73336ccc1b",
+                            Name = "MovieWatcher",
                             NormalizedName = "MOVIEWATCHER"
                         });
                 });
@@ -226,6 +226,116 @@ namespace QuickMoviePickz.Data.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
+            modelBuilder.Entity("QuickMoviePickz.Models.MovieRanking", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("MovieRating1")
+                        .HasColumnType("int");
+
+                    b.Property<int>("MovieRating2")
+                        .HasColumnType("int");
+
+                    b.Property<int>("MovieRating3")
+                        .HasColumnType("int");
+
+                    b.Property<int>("MovieRating4")
+                        .HasColumnType("int");
+
+                    b.Property<int>("MovieRating5")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("MovieRankings");
+                });
+
+            modelBuilder.Entity("QuickMoviePickz.Models.MovieWatcher", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Country")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("FirstName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("IdentityUserId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("LastName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("MyPrivateGroupId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("QuestionnaireId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("IdentityUserId");
+
+                    b.HasIndex("MyPrivateGroupId");
+
+                    b.HasIndex("QuestionnaireId");
+
+                    b.ToTable("MovieWatchers");
+                });
+
+            modelBuilder.Entity("QuickMoviePickz.Models.PrivateGroup", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int?>("MovieRankingId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("Pin")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("MovieRankingId");
+
+                    b.ToTable("PrivateGroups");
+                });
+
+            modelBuilder.Entity("QuickMoviePickz.Models.Questionnaire", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Actor")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Country")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Director")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Genre")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Questionnaires");
+                });
+
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
                 {
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
@@ -275,6 +385,28 @@ namespace QuickMoviePickz.Data.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("QuickMoviePickz.Models.MovieWatcher", b =>
+                {
+                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", "IdentityUser")
+                        .WithMany()
+                        .HasForeignKey("IdentityUserId");
+
+                    b.HasOne("QuickMoviePickz.Models.PrivateGroup", "MyPrivateGroup")
+                        .WithMany()
+                        .HasForeignKey("MyPrivateGroupId");
+
+                    b.HasOne("QuickMoviePickz.Models.Questionnaire", "Questionnaire")
+                        .WithMany()
+                        .HasForeignKey("QuestionnaireId");
+                });
+
+            modelBuilder.Entity("QuickMoviePickz.Models.PrivateGroup", b =>
+                {
+                    b.HasOne("QuickMoviePickz.Models.MovieRanking", "MovieRanking")
+                        .WithMany()
+                        .HasForeignKey("MovieRankingId");
                 });
 #pragma warning restore 612, 618
         }

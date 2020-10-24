@@ -1,10 +1,9 @@
 ﻿using System;
-using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 
-namespace QuickMoviePickz.Data.Migrations
+namespace QuickMoviePickz.Migrations
 {
-    public partial class CreateIdentitySchema : Migration
+    public partial class init : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -48,11 +47,44 @@ namespace QuickMoviePickz.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "MovieRankings",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    MovieRating1 = table.Column<int>(nullable: false),
+                    MovieRating2 = table.Column<int>(nullable: false),
+                    MovieRating3 = table.Column<int>(nullable: false),
+                    MovieRating4 = table.Column<int>(nullable: false),
+                    MovieRating5 = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_MovieRankings", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Questionnaires",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Genre = table.Column<string>(nullable: true),
+                    Director = table.Column<string>(nullable: true),
+                    Actor = table.Column<string>(nullable: true),
+                    Country = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Questionnaires", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "AspNetRoleClaims",
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     RoleId = table.Column<string>(nullable: false),
                     ClaimType = table.Column<string>(nullable: true),
                     ClaimValue = table.Column<string>(nullable: true)
@@ -73,7 +105,7 @@ namespace QuickMoviePickz.Data.Migrations
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     UserId = table.Column<string>(nullable: false),
                     ClaimType = table.Column<string>(nullable: true),
                     ClaimValue = table.Column<string>(nullable: true)
@@ -93,8 +125,8 @@ namespace QuickMoviePickz.Data.Migrations
                 name: "AspNetUserLogins",
                 columns: table => new
                 {
-                    LoginProvider = table.Column<string>(maxLength: 128, nullable: false),
-                    ProviderKey = table.Column<string>(maxLength: 128, nullable: false),
+                    LoginProvider = table.Column<string>(nullable: false),
+                    ProviderKey = table.Column<string>(nullable: false),
                     ProviderDisplayName = table.Column<string>(nullable: true),
                     UserId = table.Column<string>(nullable: false)
                 },
@@ -138,8 +170,8 @@ namespace QuickMoviePickz.Data.Migrations
                 columns: table => new
                 {
                     UserId = table.Column<string>(nullable: false),
-                    LoginProvider = table.Column<string>(maxLength: 128, nullable: false),
-                    Name = table.Column<string>(maxLength: 128, nullable: false),
+                    LoginProvider = table.Column<string>(nullable: false),
+                    Name = table.Column<string>(nullable: false),
                     Value = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
@@ -152,6 +184,68 @@ namespace QuickMoviePickz.Data.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
+
+            migrationBuilder.CreateTable(
+                name: "PrivateGroups",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(nullable: true),
+                    Pin = table.Column<int>(nullable: false),
+                    MovieRankingId = table.Column<int>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_PrivateGroups", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_PrivateGroups_MovieRankings_MovieRankingId",
+                        column: x => x.MovieRankingId,
+                        principalTable: "MovieRankings",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "MovieWatchers",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    FirstName = table.Column<string>(nullable: true),
+                    LastName = table.Column<string>(nullable: true),
+                    Country = table.Column<string>(nullable: true),
+                    MyPrivateGroupId = table.Column<int>(nullable: true),
+                    QuestionnaireId = table.Column<int>(nullable: true),
+                    IdentityUserId = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_MovieWatchers", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_MovieWatchers_AspNetUsers_IdentityUserId",
+                        column: x => x.IdentityUserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_MovieWatchers_PrivateGroups_MyPrivateGroupId",
+                        column: x => x.MyPrivateGroupId,
+                        principalTable: "PrivateGroups",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_MovieWatchers_Questionnaires_QuestionnaireId",
+                        column: x => x.QuestionnaireId,
+                        principalTable: "Questionnaires",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.InsertData(
+                table: "AspNetRoles",
+                columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
+                values: new object[] { "12ed0c0c-d61a-425c-b96c-8b8fdae825b3", "b5029185-f536-4532-bfde-6f73336ccc1b", "MovieWatcher", "MOVIEWATCHER" });
 
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
@@ -191,6 +285,26 @@ namespace QuickMoviePickz.Data.Migrations
                 column: "NormalizedUserName",
                 unique: true,
                 filter: "[NormalizedUserName] IS NOT NULL");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_MovieWatchers_IdentityUserId",
+                table: "MovieWatchers",
+                column: "IdentityUserId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_MovieWatchers_MyPrivateGroupId",
+                table: "MovieWatchers",
+                column: "MyPrivateGroupId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_MovieWatchers_QuestionnaireId",
+                table: "MovieWatchers",
+                column: "QuestionnaireId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_PrivateGroups_MovieRankingId",
+                table: "PrivateGroups",
+                column: "MovieRankingId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -211,10 +325,22 @@ namespace QuickMoviePickz.Data.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
+                name: "MovieWatchers");
+
+            migrationBuilder.DropTable(
                 name: "AspNetRoles");
 
             migrationBuilder.DropTable(
                 name: "AspNetUsers");
+
+            migrationBuilder.DropTable(
+                name: "PrivateGroups");
+
+            migrationBuilder.DropTable(
+                name: "Questionnaires");
+
+            migrationBuilder.DropTable(
+                name: "MovieRankings");
         }
     }
 }

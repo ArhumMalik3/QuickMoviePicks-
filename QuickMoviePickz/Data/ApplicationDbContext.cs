@@ -22,7 +22,7 @@ namespace QuickMoviePickz.Data
             .HasData(
             new IdentityRole
             {
-                Name = "Movie Watcher",
+                Name = "MovieWatcher",
                 NormalizedName = "MOVIEWATCHER"
             }
             );
@@ -33,5 +33,7 @@ namespace QuickMoviePickz.Data
         public DbSet<PrivateGroup> PrivateGroups { get; set; }
 
         public DbSet<Questionnaire> Questionnaires { get; set; }
+
+        public DbSet<MovieRanking> MovieRankings { get; set; }
     }
 }
