@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -46,7 +47,8 @@ namespace QuickMoviePickz.Controllers
         // GET: Questionnaires/Create
         public IActionResult Create()
         {
-            return View();
+            Questionnaire questionnaire = new Questionnaire();
+            return View(questionnaire);
         }
 
         // POST: Questionnaires/Create
@@ -54,15 +56,20 @@ namespace QuickMoviePickz.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Genre,Director,Actor,Country")] Questionnaire questionnaire)
+        public IActionResult Create(Questionnaire questionnaire)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(questionnaire);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
+                var movieWatcher = _context.MovieWatchers.Where(m => m.IdentityUserId == userId).First();
+                movieWatcher.Questionnaire = questionnaire;
+                _context.MovieWatchers.Update(movieWatcher);
+                _context.SaveChanges();
+
             }
-            return View(questionnaire);
+
+
+            return RedirectToAction("Details");
         }
 
         // GET: Questionnaires/Edit/5

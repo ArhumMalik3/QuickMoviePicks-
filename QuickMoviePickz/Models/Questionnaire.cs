@@ -22,5 +22,6 @@ namespace QuickMoviePickz.Models
 
         [Display(Name = "Country")]
         public string Country { get; set; }
+        public string IdentityUserId { get; internal set; }
     }
 }

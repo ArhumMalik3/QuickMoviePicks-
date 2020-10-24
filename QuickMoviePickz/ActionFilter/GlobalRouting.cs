@@ -25,7 +25,7 @@ namespace QuickMoviePickz.ActionFilter
                     context.Result = new RedirectToActionResult("Index",
                     "MovieWatchers", null);
                 }
-                
+               
             }
         }
         public void OnActionExecuted(ActionExecutedContext context)

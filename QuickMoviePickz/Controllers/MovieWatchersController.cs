@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -11,8 +12,10 @@ using QuickMoviePickz.Models;
 
 namespace QuickMoviePickz.Controllers
 {
+    [Authorize(Roles = "MovieWatcher")]
     public class MovieWatchersController : Controller
     {
+        
         private readonly ApplicationDbContext _context;
 
         public MovieWatchersController(ApplicationDbContext context)
@@ -21,23 +24,24 @@ namespace QuickMoviePickz.Controllers
         }
 
         // GET: MovieWatchers
-        public async Task<IActionResult> Index()
+        public IActionResult Index()
         {
+            
             var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
             var movieWatcher = _context.MovieWatchers.Where(m => m.IdentityUserId ==
-            userId).SingleOrDefault();
-            
-            if (movieWatcher == null)
+            userId).Include(e => e.IdentityUser);
+
+            if (movieWatcher.Count() == 0)
             {
 
                 return RedirectToAction("Create");
                 
             }
             
-            if (movieWatcher != null)
-            {
-                return RedirectToAction("Edit");
-            }
+            //if (movieWatcher != null)
+            //{
+            //    return RedirectToAction("Edit");
+            //}
             return View("Details", movieWatcher);
             //var applicationDbContext = _context.MovieWatchers.Include(m => m.IdentityUser).Include(m => m.Questionnaire);
             //return View(await applicationDbContext.ToListAsync());
