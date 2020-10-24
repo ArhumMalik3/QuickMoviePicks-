@@ -66,14 +66,9 @@ namespace QuickMoviePickz.Controllers
         [HttpGet]
         public IActionResult MakeGroup()
         {
-            Random rand = new Random();
-            int value = rand.Next(100000, 999999);
+            
             PrivateGroup privateGroup = new PrivateGroup();
             
-            privateGroup.Pin = value;
-            
-
-           
             return View(privateGroup);
         }
 
@@ -88,6 +83,9 @@ namespace QuickMoviePickz.Controllers
 
                 var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
                 var movieWatcher = _context.MovieWatchers.Where(m => m.IdentityUserId == userId).First();
+                Random rand = new Random();
+                int value = rand.Next(100000, 999999);
+                privateGroup.Pin = value;
                 movieWatcher.MyPrivateGroup = privateGroup;
                 _context.MovieWatchers.Update(movieWatcher);
                 _context.SaveChanges();
