@@ -55,11 +55,7 @@ namespace QuickMoviePickz.Controllers
 
         public IActionResult RankMovies()
         {
-            string Movie1;
-            string Movie2;
-            string Movie3;
-            string Movie4;
-            string Movie5;
+            
             return View();
         }
 
