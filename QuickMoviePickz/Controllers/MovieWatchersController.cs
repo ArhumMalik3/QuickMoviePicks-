@@ -111,27 +111,28 @@ namespace QuickMoviePickz.Controllers
         {
             var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
             var movieWatcher = _context.MovieWatchers.Where(m => m.IdentityUserId == userId).First();
-            var privateGroupFromDB = _context.PrivateGroups.Where(m => m.Pin == groupPin).First();
+            var privateGroupFromDB = _context.PrivateGroups.Where(m => m.Pin == groupPin).SingleOrDefault();
+            if (privateGroupFromDB == null)
+            {
+
+                return RedirectToAction("DisplayIncorrectPin");
+
+            }
             movieWatcher.MyPrivateGroup = privateGroupFromDB;
             _context.MovieWatchers.Update(movieWatcher);
             _context.SaveChanges();
 
-            //if (privateGroupFromDB == null)
-            //{
-
-            //    return RedirectToAction("Create");
-
-            //}
+            
             return View(privateGroupFromDB);
         }
 
 
-        //public ActionResult DisplayIncorrectPin()
-        //{
-        //    ViewBag.message = "Sorry, The Group Pin You Typed In Is Not A Group That Exists!";
-        //    return View();
-        //}
-        
+        public ActionResult DisplayIncorrectPin()
+        {
+            ViewBag.message = "Sorry, The Group Pin You Typed In Is Not A Group That Exists!";
+            return View();
+        }
+
         // GET: MovieWatchers/Create
         public IActionResult Create()
         {
