@@ -91,7 +91,7 @@ namespace QuickMoviePickz.Controllers
                 _context.SaveChanges();
 
 
-                return RedirectToAction("Details");
+                return RedirectToAction("Home");
 
             }
             return View(privateGroup);
@@ -109,10 +109,29 @@ namespace QuickMoviePickz.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult JoinGroup(int groupPin)
         {
-            ViewBag.Pin = groupPin;
-            return View();
+            var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var movieWatcher = _context.MovieWatchers.Where(m => m.IdentityUserId == userId).First();
+            var privateGroupFromDB = _context.PrivateGroups.Where(m => m.Pin == groupPin).First();
+            movieWatcher.MyPrivateGroup = privateGroupFromDB;
+            _context.MovieWatchers.Update(movieWatcher);
+            _context.SaveChanges();
+
+            //if (privateGroupFromDB == null)
+            //{
+
+            //    return RedirectToAction("Create");
+
+            //}
+            return View(privateGroupFromDB);
         }
 
+
+        //public ActionResult DisplayIncorrectPin()
+        //{
+        //    ViewBag.message = "Sorry, The Group Pin You Typed In Is Not A Group That Exists!";
+        //    return View();
+        //}
+        
         // GET: MovieWatchers/Create
         public IActionResult Create()
         {
