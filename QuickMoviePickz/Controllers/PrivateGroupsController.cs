@@ -53,6 +53,8 @@ namespace QuickMoviePickz.Controllers
             return View(viewModel);
         }
 
+        [HttpPost]
+        [ValidateAntiForgeryToken]
         public IActionResult RankMovies()
         {
             

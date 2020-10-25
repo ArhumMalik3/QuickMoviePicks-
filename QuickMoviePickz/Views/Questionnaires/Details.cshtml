@@ -11,28 +11,28 @@
     <h4>Questionnaire</h4>
     <hr />
     <dl class="row">
-        <dt class = "col-sm-2">
+        <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.Genre)
         </dt>
-        <dd class = "col-sm-10">
+        <dd class="col-sm-10">
             @Html.DisplayFor(model => model.Genre)
         </dd>
-        <dt class = "col-sm-2">
+        <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.Director)
         </dt>
-        <dd class = "col-sm-10">
+        <dd class="col-sm-10">
             @Html.DisplayFor(model => model.Director)
         </dd>
-        <dt class = "col-sm-2">
+        <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.Actor)
         </dt>
-        <dd class = "col-sm-10">
+        <dd class="col-sm-10">
             @Html.DisplayFor(model => model.Actor)
         </dd>
-        <dt class = "col-sm-2">
+        <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.Country)
         </dt>
-        <dd class = "col-sm-10">
+        <dd class="col-sm-10">
             @Html.DisplayFor(model => model.Country)
         </dd>
     </dl>
@@ -41,3 +41,31 @@
     <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> |
     <a asp-action="Index">Back to List</a>
 </div>
+
+
+<span class="text-warning float-right">
+    <i class="ratingStar far fa-star" data-value="1"></i>
+    <i class="ratingStar far fa-star" data-value="2"></i>
+    <i class="ratingStar far fa-star" data-value="3"></i>
+    <i class="ratingStar far fa-star" data-value="4"></i>
+    <i class="ratingStar far fa-star" data-value="5"></i>
+</span>
+
+<input type="hidden" name="MovieRating1" id="ratingsValue" />
+
+@section scripts {
+    <script>
+
+        $(".ratingStar").hover(function () {
+            $(".ratingStar").addClass("far").removeClass("fas");
+            $(this).addClass("fas").removeClass("far");
+            $(this).prevAll(".ratingStar").addClass("fas").removeClass("far");
+        });
+
+        $(".ratingStar").click(function () {
+            var starValue = $(this).attr("data-value")
+            $("#ratingsValue").val(starValue);
+        });
+
+    </script>
+}
