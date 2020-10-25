@@ -1,4 +1,5 @@
-﻿using System;
+﻿using QuickMoviePickz.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -7,6 +8,10 @@ namespace QuickMoviePickz.ViewModels
 {
     public class PrivateGroupRankMoviesViewModel
     {
+        public PrivateGroup PrivateGroup { get; set; }
+
+        public List<MovieWatcher> MovieWatchers { get; set; }
+
         public int MovieRating1 { get; set; }
 
         public int MovieRating2 { get; set; }

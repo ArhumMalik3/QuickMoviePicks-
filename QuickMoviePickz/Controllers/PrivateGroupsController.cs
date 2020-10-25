@@ -53,11 +53,30 @@ namespace QuickMoviePickz.Controllers
             return View(viewModel);
         }
 
+        public IActionResult RankMovies(int? id)
+        {
+            var privateGroup = _context.PrivateGroups.FirstOrDefault(g => g.Id == id);
+            PrivateGroupRankMoviesViewModel rankMoviesViewModel = new PrivateGroupRankMoviesViewModel();
+            rankMoviesViewModel.PrivateGroup = privateGroup;
+
+            List<MovieWatcher> movieWatchers = _context.MovieWatchers.Where(m => m.MyPrivateGroup == privateGroup).ToList();
+            return View(rankMoviesViewModel);
+        }
+
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult RankMovies()
+        public IActionResult RankMovies(PrivateGroupRankMoviesViewModel rankMoviesViewModel)
         {
             
+            int numberOfPeopleInGroup = rankMoviesViewModel.MovieWatchers.Count;
+            int totalRating = rankMoviesViewModel.MovieRating1;
+            int averageRatingOfMovie = totalRating / numberOfPeopleInGroup;
+
+            MovieRanking movieRanking = new MovieRanking();
+            movieRanking.MovieRating1 = averageRatingOfMovie;
+
+
+
             return View();
         }
 
