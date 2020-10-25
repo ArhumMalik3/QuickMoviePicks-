@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -53,6 +54,11 @@ namespace QuickMoviePickz.Controllers
             return View(viewModel);
         }
 
+        public void Random()
+        {
+
+        }
+
         public IActionResult RankMovies(int? id)
         {
             var privateGroup = _context.PrivateGroups.FirstOrDefault(g => g.Id == id);
@@ -60,6 +66,10 @@ namespace QuickMoviePickz.Controllers
             rankMoviesViewModel.PrivateGroup = privateGroup;
 
             List<MovieWatcher> movieWatchers = _context.MovieWatchers.Where(m => m.MyPrivateGroup == privateGroup).ToList();
+            //foreach (var person in movieWatchers)
+            //{
+
+            //}
             return View(rankMoviesViewModel);
         }
 
@@ -67,16 +77,25 @@ namespace QuickMoviePickz.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult RankMovies(PrivateGroupRankMoviesViewModel rankMoviesViewModel)
         {
-            
-            int numberOfPeopleInGroup = rankMoviesViewModel.MovieWatchers.Count;
-            int totalRating = rankMoviesViewModel.MovieRating1;
-            int averageRatingOfMovie = totalRating / numberOfPeopleInGroup;
+            var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var movieWatcher = _context.MovieWatchers.Where(m => m.IdentityUserId == userId).First();
+            movieWatcher.MyPrivateGroup.MovieRanking.MovieRating1 += rankMoviesViewModel.MovieRating1;
+            movieWatcher.MyPrivateGroup.MovieRanking.MovieRating2 += rankMoviesViewModel.MovieRating2;
+            movieWatcher.MyPrivateGroup.MovieRanking.MovieRating3 += rankMoviesViewModel.MovieRating3;
+            movieWatcher.MyPrivateGroup.MovieRanking.MovieRating4 += rankMoviesViewModel.MovieRating4;
+            movieWatcher.MyPrivateGroup.MovieRanking.MovieRating5 += rankMoviesViewModel.MovieRating5;
+            _context.MovieWatchers.Update(movieWatcher);
+            _context.SaveChanges();
 
-            MovieRanking movieRanking = new MovieRanking();
-            movieRanking.MovieRating1 = averageRatingOfMovie;
+            //int numberOfPeopleInGroup = rankMoviesViewModel.MovieWatchers.Count;
+            //int totalRating = rankMoviesViewModel.MovieRating1;
+            //int averageRatingOfMovie = totalRating / numberOfPeopleInGroup;
 
+            //MovieRanking movieRanking = new MovieRanking();
+            //movieRanking.MovieRating1 = averageRatingOfMovie;
 
-
+            //var privateGroup = _context.PrivateGroups.FirstOrDefault(g => g.Id == rankMoviesViewModel.GroupId);
+            //< input type = "hidden" asp -for= "GroupId" value = "@Model.PrivateGroup.Id" />
             return View();
         }
 
