@@ -5,10 +5,23 @@
 }
 
 <h1>RankMovies</h1>
-<span class="text-warning">
-    <i class="fas fa-star"></i>
-    <i class="fas fa-star"></i>
-    <i class="fas fa-star"></i>
-    <i class="fas fa-star"></i>
-    <i class="fas fa-star"></i>
+<span class="text-warning float-right">
+    <i class="ratingStar far fa-star"></i>
+    <i class="ratingStar far fa-star"></i>
+    <i class="ratingStar far fa-star"></i>
+    <i class="ratingStar far fa-star"></i>
+    <i class="ratingStar far fa-star"></i>
 </span>
+
+
+@section scripts {
+    <script>
+
+        $(".ratingStar").hover(function () {
+            $(".ratingStar").addClass("far").removeClass("fas");
+            $(this).addClass("fas").removeClass("far");
+            $(this).prevAll(".ratingStar").addClass("fas").removeClass("far");
+        });
+    </script>
+}
+
