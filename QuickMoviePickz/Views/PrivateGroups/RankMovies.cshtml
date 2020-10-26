@@ -20,7 +20,66 @@
     </span>
 
     <input type="hidden" name="MovieRating1" id="ratingsValue" />
-    
+
+</form>
+
+<form>
+    <h6>Rate Movie 2!</h6>
+    <span class="text-warning float-right">
+        <i class="ratingStar2 far fa-star" data-value="1"></i>
+        <i class="ratingStar2 far fa-star" data-value="2"></i>
+        <i class="ratingStar2 far fa-star" data-value="3"></i>
+        <i class="ratingStar2 far fa-star" data-value="4"></i>
+        <i class="ratingStar2 far fa-star" data-value="5"></i>
+    </span>
+
+    <input type="hidden" name="MovieRating2" id="ratingsValue2" />
+
+</form>
+
+
+<form>
+    <h6>Rate Movie 3!</h6>
+    <span class="text-warning float-right">
+        <i class="ratingStar3 far fa-star" data-value="1"></i>
+        <i class="ratingStar3 far fa-star" data-value="2"></i>
+        <i class="ratingStar3 far fa-star" data-value="3"></i>
+        <i class="ratingStar3 far fa-star" data-value="4"></i>
+        <i class="ratingStar3 far fa-star" data-value="5"></i>
+    </span>
+
+    <input type="hidden" name="MovieRating3" id="ratingsValue3" />
+
+</form>
+
+
+<form>
+    <h6>Rate Movie 4!</h6>
+    <span class="text-warning float-right">
+        <i class="ratingStar4 far fa-star" data-value="1"></i>
+        <i class="ratingStar4 far fa-star" data-value="2"></i>
+        <i class="ratingStar4 far fa-star" data-value="3"></i>
+        <i class="ratingStar4 far fa-star" data-value="4"></i>
+        <i class="ratingStar4 far fa-star" data-value="5"></i>
+    </span>
+
+    <input type="hidden" name="MovieRating4" id="ratingsValue4" />
+
+</form>
+
+
+<form>
+    <h6>Rate Movie 5!</h6>
+    <span class="text-warning float-right">
+        <i class="ratingStar5 far fa-star" data-value="1"></i>
+        <i class="ratingStar5 far fa-star" data-value="2"></i>
+        <i class="ratingStar5 far fa-star" data-value="3"></i>
+        <i class="ratingStar5 far fa-star" data-value="4"></i>
+        <i class="ratingStar5 far fa-star" data-value="5"></i>
+    </span>
+
+    <input type="hidden" name="MovieRating5" id="ratingsValue5" />
+
 </form>
 
 
@@ -38,6 +97,56 @@
             $("#ratingsValue").val(starValue);
         });
 
+
+
+        $(".ratingStar2").hover(function () {
+            $(".ratingStar2").addClass("far").removeClass("fas");
+            $(this).addClass("fas").removeClass("far");
+            $(this).prevAll(".ratingStar2").addClass("fas").removeClass("far");
+        });
+
+        $(".ratingStar2").click(function () {
+            var starValue = $(this).attr("data-value")
+            $("#ratingsValue2").val(starValue);
+        });
+
+        $(".ratingStar3").hover(function () {
+            $(".ratingStar3").addClass("far").removeClass("fas");
+            $(this).addClass("fas").removeClass("far");
+            $(this).prevAll(".ratingStar3").addClass("fas").removeClass("far");
+        });
+
+        $(".ratingStar3").click(function () {
+            var starValue = $(this).attr("data-value")
+            $("#ratingsValue3").val(starValue);
+        });
+
+        $(".ratingStar4").hover(function () {
+            $(".ratingStar4").addClass("far").removeClass("fas");
+            $(this).addClass("fas").removeClass("far");
+            $(this).prevAll(".ratingStar4").addClass("fas").removeClass("far");
+        });
+
+        $(".ratingStar4").click(function () {
+            var starValue = $(this).attr("data-value")
+            $("#ratingsValue4").val(starValue);
+        });
+
+        $(".ratingStar5").hover(function () {
+            $(".ratingStar5").addClass("far").removeClass("fas");
+            $(this).addClass("fas").removeClass("far");
+            $(this).prevAll(".ratingStar5").addClass("fas").removeClass("far");
+        });
+
+        $(".ratingStar5").click(function () {
+            var starValue = $(this).attr("data-value")
+            $("#ratingsValue5").val(starValue);
+        });
+
     </script>
 }
+
+
+
+
 
