@@ -26,7 +26,7 @@ namespace QuickMoviePickz.Controllers
         {
             MovieAPi movieAPi = new MovieAPi();
             await movieAPi.GetMovies();
-
+           
             return View(await _context.PrivateGroups.ToListAsync());
         }
 
