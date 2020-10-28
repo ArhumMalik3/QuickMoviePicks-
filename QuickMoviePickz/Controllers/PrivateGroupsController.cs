@@ -24,8 +24,8 @@ namespace QuickMoviePickz.Controllers
         // GET: PrivateGroups
         public async Task<IActionResult> Index()
         {
-            Genres genres = new Genres();
-            await genres.GetGenres();
+            MovieAPi movieAPi = new MovieAPi();
+            await movieAPi.GetMovies();
 
             return View(await _context.PrivateGroups.ToListAsync());
         }

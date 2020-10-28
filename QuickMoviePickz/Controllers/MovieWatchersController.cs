@@ -95,7 +95,7 @@ namespace QuickMoviePickz.Controllers
                 _context.SaveChanges();
 
 
-                return RedirectToAction("Home");
+                return RedirectToAction("Details");
 
             }
             return View(privateGroup);
