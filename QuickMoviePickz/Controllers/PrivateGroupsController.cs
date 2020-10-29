@@ -6,9 +6,12 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using QuickMoviePickz.Data;
 using QuickMoviePickz.Models;
 using QuickMoviePickz.ViewModels;
+using RestSharp;
 
 namespace QuickMoviePickz.Controllers
 {
@@ -96,6 +99,39 @@ namespace QuickMoviePickz.Controllers
 
             //var privateGroup = _context.PrivateGroups.FirstOrDefault(g => g.Id == rankMoviesViewModel.GroupId);
             //< input type = "hidden" asp -for= "GroupId" value = "@Model.PrivateGroup.Id" />
+            return View();
+        }
+
+        public IActionResult GetMovies()
+        {
+            var client = new RestClient("https://unogsng.p.rapidapi.com/search?genrelist=920&type=movie&start_year=1995&orderby=rating&audiosubtitle_andor=and&limit=5&subtitle=english&countrylist=78%252C46&audio=english&country_andorunique=unique&offset=0&end_year=2019");
+            var request = new RestRequest(Method.GET);
+            request.AddHeader("x-rapidapi-host", "unogsng.p.rapidapi.com");
+            request.AddHeader("x-rapidapi-key", PrivateAPIKeys.MovieSearchAPIKey);
+            IRestResponse response = client.Execute(request);
+            string jsonResult = response.Content.ToString();
+            if (response.IsSuccessful)
+            {
+                JObject data = JsonConvert.DeserializeObject<JObject>(jsonResult);
+                ViewBag.movie = data;
+            }
+            
+            return View();
+        }
+
+        public IActionResult GetGenres()
+        {
+            var client = new RestClient("https://unogsng.p.rapidapi.com/genres");
+            var request = new RestRequest(Method.GET);
+            request.AddHeader("x-rapidapi-host", "unogsng.p.rapidapi.com");
+            request.AddHeader("x-rapidapi-key", PrivateAPIKeys.GenreAPIKey);
+            IRestResponse response = client.Execute(request);
+            string jsonResult = response.Content.ToString();
+            if (response.IsSuccessful)
+            {
+                JObject data = JsonConvert.DeserializeObject<JObject>(jsonResult);
+                ViewBag.genres = data;
+            }
             return View();
         }
 
