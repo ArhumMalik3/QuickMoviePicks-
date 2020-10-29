@@ -84,11 +84,11 @@ namespace QuickMoviePickz.Controllers
         {
             var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
             var movieWatcher = _context.MovieWatchers.Where(m => m.IdentityUserId == userId).First();
-            movieWatcher.MyPrivateGroup.MovieRanking.MovieRating1 += rankMoviesViewModel.MovieRating1;
-            movieWatcher.MyPrivateGroup.MovieRanking.MovieRating2 += rankMoviesViewModel.MovieRating2;
-            movieWatcher.MyPrivateGroup.MovieRanking.MovieRating3 += rankMoviesViewModel.MovieRating3;
-            movieWatcher.MyPrivateGroup.MovieRanking.MovieRating4 += rankMoviesViewModel.MovieRating4;
-            movieWatcher.MyPrivateGroup.MovieRanking.MovieRating5 += rankMoviesViewModel.MovieRating5;
+            movieWatcher.MyPrivateGroup.MovieRanking.MovieRating1 = rankMoviesViewModel.MovieRating1;
+            movieWatcher.MyPrivateGroup.MovieRanking.MovieRating2 = rankMoviesViewModel.MovieRating2;
+            movieWatcher.MyPrivateGroup.MovieRanking.MovieRating3 = rankMoviesViewModel.MovieRating3;
+            movieWatcher.MyPrivateGroup.MovieRanking.MovieRating4 = rankMoviesViewModel.MovieRating4;
+            movieWatcher.MyPrivateGroup.MovieRanking.MovieRating5 = rankMoviesViewModel.MovieRating5;
             _context.MovieWatchers.Update(movieWatcher);
             _context.SaveChanges();
 
@@ -101,10 +101,10 @@ namespace QuickMoviePickz.Controllers
 
             //var privateGroup = _context.PrivateGroups.FirstOrDefault(g => g.Id == rankMoviesViewModel.GroupId);
             //< input type = "hidden" asp -for= "GroupId" value = "@Model.PrivateGroup.Id" />
-            return View();
+            return RedirectToAction("Details","MovieWatchers");
         }
 
-        public IActionResult GetGroupInformation(PrivateGroup privateGroup)
+        public void GetGroupInformation(PrivateGroup privateGroup)
         {
             List<MovieWatcher> movieWatchers =  _context.MovieWatchers.Where(m => m.MyPrivateGroup == privateGroup).ToList();
             List<GenreId> genres = null;
@@ -113,12 +113,18 @@ namespace QuickMoviePickz.Controllers
 
                 genres.Add(person.Questionnaire.Genre);
             }
-            return View();
+
+            if (genres.Count == movieWatchers.Count)
+            {
+                GetMovies(genres);
+
+            }
+            
         }
 
-        public IActionResult GetMovies()
+        public IActionResult GetMovies(List<GenreId> genres)
         {
-
+            var genrelist1 = genres.ToString();
             var genreList = "920,6839,7442";
             var type = "movie";
             var startYear = "1995";
@@ -135,7 +141,10 @@ namespace QuickMoviePickz.Controllers
             {
                 var deserialize = new JsonDeserializer();
                 var output = deserialize.Deserialize<Dictionary<string, string>>(response);
+                //var output = deserialize.Deserialize<JObject>(response);
                 var movies = output["results"];
+                
+                
                 
                 
                 //JObject data = JsonConvert.DeserializeObject<JObject>(jsonResult);
