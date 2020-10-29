@@ -35,5 +35,7 @@ namespace QuickMoviePickz.Data
         public DbSet<Questionnaire> Questionnaires { get; set; }
 
         public DbSet<MovieRanking> MovieRankings { get; set; }
+
+        public DbSet<GenreId> Genres { get; set; }
     }
 }

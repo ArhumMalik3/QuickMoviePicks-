@@ -27,15 +27,9 @@ namespace QuickMoviePickz.Controllers
         }
 
         // GET: Questionnaires/Details/5
-        public async Task<IActionResult> Details(int? id)
+        public IActionResult Details(Questionnaire questionnaire)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var questionnaire = await _context.Questionnaires
-                .FirstOrDefaultAsync(m => m.Id == id);
+            
             if (questionnaire == null)
             {
                 return NotFound();

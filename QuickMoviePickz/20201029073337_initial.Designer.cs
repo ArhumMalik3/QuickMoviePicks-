@@ -10,8 +10,8 @@ using QuickMoviePickz.Data;
 namespace QuickMoviePickz.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20201024210332_init")]
-    partial class init
+    [Migration("20201029073337_initial")]
+    partial class initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -50,8 +50,8 @@ namespace QuickMoviePickz.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "12ed0c0c-d61a-425c-b96c-8b8fdae825b3",
-                            ConcurrencyStamp = "b5029185-f536-4532-bfde-6f73336ccc1b",
+                            Id = "7952dadb-edcf-4d96-8ba3-8e311fddb9bf",
+                            ConcurrencyStamp = "937ae929-f33d-461c-b64d-e7088bc94825",
                             Name = "MovieWatcher",
                             NormalizedName = "MOVIEWATCHER"
                         });
@@ -224,6 +224,24 @@ namespace QuickMoviePickz.Migrations
                     b.HasKey("UserId", "LoginProvider", "Name");
 
                     b.ToTable("AspNetUserTokens");
+                });
+
+            modelBuilder.Entity("QuickMoviePickz.Models.GenreId", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Genre")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("NetflixId")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Genres");
                 });
 
             modelBuilder.Entity("QuickMoviePickz.Models.MovieRanking", b =>

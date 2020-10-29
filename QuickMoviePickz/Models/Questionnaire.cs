@@ -12,7 +12,7 @@ namespace QuickMoviePickz.Models
         public int Id { get; set; }
 
         [Display(Name = "Genre")]
-        public string Genre { get; set; }
+        public GenreId Genre { get; set; }
 
         [Display(Name = "Director")]
         public string Director { get; set; }

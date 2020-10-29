@@ -104,6 +104,18 @@ namespace QuickMoviePickz.Controllers
             return View();
         }
 
+        public IActionResult GetGroupInformation(PrivateGroup privateGroup)
+        {
+            List<MovieWatcher> movieWatchers =  _context.MovieWatchers.Where(m => m.MyPrivateGroup == privateGroup).ToList();
+            List<GenreId> genres = null;
+            foreach (var person in movieWatchers)
+            {
+
+                genres.Add(person.Questionnaire.Genre);
+            }
+            return View();
+        }
+
         public IActionResult GetMovies()
         {
 
