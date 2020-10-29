@@ -8,10 +8,12 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using NUnit.Framework;
 using QuickMoviePickz.Data;
 using QuickMoviePickz.Models;
 using QuickMoviePickz.ViewModels;
 using RestSharp;
+using RestSharp.Serialization.Json;
 
 namespace QuickMoviePickz.Controllers
 {
@@ -104,16 +106,34 @@ namespace QuickMoviePickz.Controllers
 
         public IActionResult GetMovies()
         {
-            var client = new RestClient("https://unogsng.p.rapidapi.com/search?genrelist=920&type=movie&start_year=1995&orderby=rating&audiosubtitle_andor=and&limit=5&subtitle=english&countrylist=78%252C46&audio=english&country_andorunique=unique&offset=0&end_year=2019");
+
+            var genreList = "920,6839,7442";
+            var type = "movie";
+            var startYear = "1995";
+            var countryList = "78,46";
+
+            var client = new RestClient("https://rapidapi.p.rapidapi.com/search?genrelist=920,6839,7442&type=movie&start_year=1995&orderby=rating&limit=5&countrylist=78,46&audio=english&offset=0&end_year=2019");
             var request = new RestRequest(Method.GET);
             request.AddHeader("x-rapidapi-host", "unogsng.p.rapidapi.com");
             request.AddHeader("x-rapidapi-key", PrivateAPIKeys.MovieSearchAPIKey);
             IRestResponse response = client.Execute(request);
-            string jsonResult = response.Content.ToString();
+            
+            //string jsonResult = response.Content.ToString();
             if (response.IsSuccessful)
             {
-                JObject data = JsonConvert.DeserializeObject<JObject>(jsonResult);
-                ViewBag.movie = data;
+                var deserialize = new JsonDeserializer();
+                var output = deserialize.Deserialize<Dictionary<string, string>>(response);
+                var movies = output["results"];
+                
+                
+                //JObject data = JsonConvert.DeserializeObject<JObject>(jsonResult);
+                ViewBag.movie = movies;
+
+
+                //JObject jobject = JObject.Parse(data.ToString());
+                //string movies = (string)jobject["synopsis"];
+                //ViewBag.movie = movies;
+
             }
             
             return View();
@@ -126,11 +146,13 @@ namespace QuickMoviePickz.Controllers
             request.AddHeader("x-rapidapi-host", "unogsng.p.rapidapi.com");
             request.AddHeader("x-rapidapi-key", PrivateAPIKeys.GenreAPIKey);
             IRestResponse response = client.Execute(request);
-            string jsonResult = response.Content.ToString();
+            
             if (response.IsSuccessful)
             {
-                JObject data = JsonConvert.DeserializeObject<JObject>(jsonResult);
-                ViewBag.genres = data;
+                string data = response.Content.ToString();
+                JObject jsonResults = JsonConvert.DeserializeObject<JObject>(data);
+                JToken results = jsonResults["genre"];
+                ViewBag.genres = results;
             }
             return View();
         }

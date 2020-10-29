@@ -12,7 +12,7 @@ using QuickMoviePickz.Models;
 
 namespace QuickMoviePickz.Controllers
 {
-    [Authorize(Roles = "MovieWatcher")]
+    
     public class MovieWatchersController : Controller
     {
         
@@ -48,17 +48,9 @@ namespace QuickMoviePickz.Controllers
         }
 
         // GET: MovieWatchers/Details/5
-        public async Task<IActionResult> Details(int? id)
+        public IActionResult Details(MovieWatcher movieWatcher)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var movieWatcher = await _context.MovieWatchers
-                .Include(m => m.IdentityUser)
-                .Include(m => m.Questionnaire)
-                .FirstOrDefaultAsync(m => m.Id == id);
+           
             if (movieWatcher == null)
             {
                 return NotFound();
