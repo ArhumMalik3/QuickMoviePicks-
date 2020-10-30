@@ -111,7 +111,7 @@ namespace QuickMoviePickz.Controllers
             return RedirectToAction("Details","MovieWatchers");
         }
 
-        public IActionResult VoteOnMovies(PrivateGroup privategroup)
+        public void GetHighestRatedMovies(PrivateGroup privategroup)
         {
             var privateGroup = _context.PrivateGroups.Where(p => p.Id == privategroup.Id).FirstOrDefault();
             List<string> movieChoices = null;
@@ -146,6 +146,19 @@ namespace QuickMoviePickz.Controllers
                 movieChoices.Add("Movie 5");
             }
 
+            VoteOnMovies(movieChoices);
+        }
+
+        public IActionResult VoteOnMovies(List<string> movieChoices)
+        {
+            
+            return View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult VoteOnMovies(int id)
+        {
             return View();
         }
 
