@@ -114,14 +114,38 @@ namespace QuickMoviePickz.Controllers
         public IActionResult VoteOnMovies(PrivateGroup privategroup)
         {
             var privateGroup = _context.PrivateGroups.Where(p => p.Id == privategroup.Id).FirstOrDefault();
+            List<string> movieChoices = null;
             List<int> ratingValues = new List<int>();
             ratingValues.Add(privateGroup.MovieRanking.MovieRating1);
             ratingValues.Add(privateGroup.MovieRanking.MovieRating2);
             ratingValues.Add(privateGroup.MovieRanking.MovieRating3);
             ratingValues.Add(privateGroup.MovieRanking.MovieRating4);
             ratingValues.Add(privateGroup.MovieRanking.MovieRating5);
-            ratingValues.Max(z => z);
-            ratingValues.OrderByDescending(z => z).Skip(1).First();
+            int highestAmount = ratingValues.Max(z => z);
+            int secondHighestAmount = ratingValues.OrderByDescending(z => z).Skip(1).First();
+
+            if (privateGroup.MovieRanking.MovieRating1 >= secondHighestAmount)
+            {
+                movieChoices.Add("Movie 1");
+            }
+            if (privateGroup.MovieRanking.MovieRating2 >= secondHighestAmount)
+            {
+                movieChoices.Add("Movie 2");
+            }
+            if (privateGroup.MovieRanking.MovieRating3 >= secondHighestAmount)
+            {
+                movieChoices.Add("Movie 3");
+            }
+            if (privateGroup.MovieRanking.MovieRating4 >= secondHighestAmount)
+            {
+                movieChoices.Add("Movie 4");
+            }
+            if (privateGroup.MovieRanking.MovieRating5 >= secondHighestAmount)
+            {
+
+                movieChoices.Add("Movie 5");
+            }
+
             return View();
         }
 
