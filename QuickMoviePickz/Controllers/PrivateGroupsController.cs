@@ -84,11 +84,18 @@ namespace QuickMoviePickz.Controllers
         {
             var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
             var movieWatcher = _context.MovieWatchers.Where(m => m.IdentityUserId == userId).First();
-            movieWatcher.MyPrivateGroup.MovieRanking.MovieRating1 = rankMoviesViewModel.MovieRating1;
-            movieWatcher.MyPrivateGroup.MovieRanking.MovieRating2 = rankMoviesViewModel.MovieRating2;
-            movieWatcher.MyPrivateGroup.MovieRanking.MovieRating3 = rankMoviesViewModel.MovieRating3;
-            movieWatcher.MyPrivateGroup.MovieRanking.MovieRating4 = rankMoviesViewModel.MovieRating4;
-            movieWatcher.MyPrivateGroup.MovieRanking.MovieRating5 = rankMoviesViewModel.MovieRating5;
+            var privateGroup = _context.PrivateGroups.Where(m => m.Id == movieWatcher.MyPrivateGroup.Id).FirstOrDefault();
+
+            MovieRanking movieRanking = new MovieRanking();
+            
+            movieRanking.MovieRating1 = rankMoviesViewModel.MovieRating1;
+            movieRanking.MovieRating2 = rankMoviesViewModel.MovieRating2;
+            movieRanking.MovieRating3 = rankMoviesViewModel.MovieRating3;
+            movieRanking.MovieRating4 = rankMoviesViewModel.MovieRating4;
+            movieRanking.MovieRating5 = rankMoviesViewModel.MovieRating5;
+            privateGroup.MovieRanking = movieRanking;
+            movieWatcher.MyPrivateGroup = privateGroup;
+            
             _context.MovieWatchers.Update(movieWatcher);
             _context.SaveChanges();
 
@@ -102,6 +109,20 @@ namespace QuickMoviePickz.Controllers
             //var privateGroup = _context.PrivateGroups.FirstOrDefault(g => g.Id == rankMoviesViewModel.GroupId);
             //< input type = "hidden" asp -for= "GroupId" value = "@Model.PrivateGroup.Id" />
             return RedirectToAction("Details","MovieWatchers");
+        }
+
+        public IActionResult VoteOnMovies(PrivateGroup privategroup)
+        {
+            var privateGroup = _context.PrivateGroups.Where(p => p.Id == privategroup.Id).FirstOrDefault();
+            List<int> ratingValues = new List<int>();
+            ratingValues.Add(privateGroup.MovieRanking.MovieRating1);
+            ratingValues.Add(privateGroup.MovieRanking.MovieRating2);
+            ratingValues.Add(privateGroup.MovieRanking.MovieRating3);
+            ratingValues.Add(privateGroup.MovieRanking.MovieRating4);
+            ratingValues.Add(privateGroup.MovieRanking.MovieRating5);
+            ratingValues.Max(z => z);
+            ratingValues.OrderByDescending(z => z).Skip(1).First();
+            return View();
         }
 
         public void GetGroupInformation(PrivateGroup privateGroup)
