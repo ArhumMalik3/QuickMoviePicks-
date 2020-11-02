@@ -64,13 +64,11 @@ namespace QuickMoviePickz.Controllers
 
         }
 
-        public IActionResult RankMovies(int? id)
+        public IActionResult RankMovies()
         {
-            var privateGroup = _context.PrivateGroups.FirstOrDefault(g => g.Id == id);
+            
             PrivateGroupRankMoviesViewModel rankMoviesViewModel = new PrivateGroupRankMoviesViewModel();
-            rankMoviesViewModel.PrivateGroup = privateGroup;
-
-            List<MovieWatcher> movieWatchers = _context.MovieWatchers.Where(m => m.MyPrivateGroup == privateGroup).ToList();
+            
             //foreach (var person in movieWatchers)
             //{
 

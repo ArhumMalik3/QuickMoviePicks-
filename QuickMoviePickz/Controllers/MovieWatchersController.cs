@@ -70,7 +70,7 @@ namespace QuickMoviePickz.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult MakeGroup(PrivateGroup privateGroup)
+        public async Task<IActionResult> MakeGroup(PrivateGroup privateGroup)
         {
             if (ModelState.IsValid)
             {
@@ -82,15 +82,14 @@ namespace QuickMoviePickz.Controllers
                 Random rand = new Random();
                 int value = rand.Next(100000, 999999);
                 privateGroup.Pin = value;
-                _context.PrivateGroups.Add(privateGroup);
-                _context.SaveChanges();
+                //_context.PrivateGroups.Add(privateGroup);
+                //_context.SaveChanges();
                 movieWatcher.MyPrivateGroup = privateGroup;
                 _context.MovieWatchers.Update(movieWatcher);
-                _context.SaveChanges();
+                await _context.SaveChangesAsync();
 
 
-                return RedirectToAction("RankMovies", "PrivateGroups", privateGroup.Id);
-
+                return RedirectToAction("RankMovies", "PrivateGroups");
             }
             return View(privateGroup);
         }
