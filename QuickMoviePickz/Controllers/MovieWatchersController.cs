@@ -82,6 +82,8 @@ namespace QuickMoviePickz.Controllers
                 Random rand = new Random();
                 int value = rand.Next(100000, 999999);
                 privateGroup.Pin = value;
+                _context.PrivateGroups.Add(privateGroup);
+                _context.SaveChanges();
                 movieWatcher.MyPrivateGroup = privateGroup;
                 _context.MovieWatchers.Update(movieWatcher);
                 _context.SaveChanges();
