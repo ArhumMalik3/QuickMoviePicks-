@@ -81,8 +81,8 @@ namespace QuickMoviePickz.Controllers
         public IActionResult RankMovies(PrivateGroupRankMoviesViewModel rankMoviesViewModel)
         {
             var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
-            var movieWatcher = _context.MovieWatchers.Where(m => m.IdentityUserId == userId).First();
-            var privateGroup = _context.PrivateGroups.Where(m => m.Id == movieWatcher.MyPrivateGroup.Id).FirstOrDefault();
+            var movieWatcher = _context.MovieWatchers.Where(m => m.IdentityUserId == userId).FirstOrDefault();
+            var privateGroup =  _context.PrivateGroups.Where(m => m.Name == rankMoviesViewModel.GroupName).FirstOrDefault();
 
             MovieRanking movieRanking = new MovieRanking();
             
@@ -92,6 +92,8 @@ namespace QuickMoviePickz.Controllers
             movieRanking.MovieRating4 = rankMoviesViewModel.MovieRating4;
             movieRanking.MovieRating5 = rankMoviesViewModel.MovieRating5;
             privateGroup.MovieRanking = movieRanking;
+            _context.PrivateGroups.Update(privateGroup);
+            _context.SaveChanges();
             movieWatcher.MyPrivateGroup = privateGroup;
             
             _context.MovieWatchers.Update(movieWatcher);

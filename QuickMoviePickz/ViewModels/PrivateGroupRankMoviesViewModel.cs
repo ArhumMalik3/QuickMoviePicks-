@@ -10,6 +10,8 @@ namespace QuickMoviePickz.ViewModels
     {
         public PrivateGroup PrivateGroup { get; set; }
 
+        public string GroupName { get; set; }
+
         public int GroupId { get; set; }
 
         public List<MovieWatcher> MovieWatchers { get; set; }
