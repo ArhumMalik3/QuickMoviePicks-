@@ -10,8 +10,8 @@ using QuickMoviePickz.Data;
 namespace QuickMoviePickz.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20201029073337_initial")]
-    partial class initial
+    [Migration("20201106105538_initialz")]
+    partial class initialz
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -50,8 +50,8 @@ namespace QuickMoviePickz.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "7952dadb-edcf-4d96-8ba3-8e311fddb9bf",
-                            ConcurrencyStamp = "937ae929-f33d-461c-b64d-e7088bc94825",
+                            Id = "2417a45f-df1d-4e22-a1ed-c431a9dfd587",
+                            ConcurrencyStamp = "85569806-402f-42bb-8d7c-46cafb4224c7",
                             Name = "MovieWatcher",
                             NormalizedName = "MOVIEWATCHER"
                         });
@@ -236,12 +236,26 @@ namespace QuickMoviePickz.Migrations
                     b.Property<string>("Genre")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("NetflixId")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("NetflixId")
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
                     b.ToTable("Genres");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Genre = "Sports Documentaries",
+                            NetflixId = 180
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Genre = "Biographical Movies",
+                            NetflixId = 1096
+                        });
                 });
 
             modelBuilder.Entity("QuickMoviePickz.Models.MovieRanking", b =>
@@ -346,10 +360,12 @@ namespace QuickMoviePickz.Migrations
                     b.Property<string>("Director")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Genre")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int?>("GenreId")
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("GenreId");
 
                     b.ToTable("Questionnaires");
                 });
@@ -425,6 +441,13 @@ namespace QuickMoviePickz.Migrations
                     b.HasOne("QuickMoviePickz.Models.MovieRanking", "MovieRanking")
                         .WithMany()
                         .HasForeignKey("MovieRankingId");
+                });
+
+            modelBuilder.Entity("QuickMoviePickz.Models.Questionnaire", b =>
+                {
+                    b.HasOne("QuickMoviePickz.Models.GenreId", "Genre")
+                        .WithMany()
+                        .HasForeignKey("GenreId");
                 });
 #pragma warning restore 612, 618
         }

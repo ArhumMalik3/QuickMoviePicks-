@@ -14,6 +14,6 @@ namespace QuickMoviePickz.Models
         
         public string Genre { get; set; }
 
-        public string NetflixId { get; set; }
+        public int NetflixId { get; set; }
     }
 }
