@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace QuickMoviePickz.Migrations
 {
-    public partial class initialz : Migration
+    public partial class init : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -265,17 +265,24 @@ namespace QuickMoviePickz.Migrations
             migrationBuilder.InsertData(
                 table: "AspNetRoles",
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
-                values: new object[] { "2417a45f-df1d-4e22-a1ed-c431a9dfd587", "85569806-402f-42bb-8d7c-46cafb4224c7", "MovieWatcher", "MOVIEWATCHER" });
+                values: new object[] { "e2f1ffc5-89d7-44b0-ab69-ab94520c8701", "70cb4de9-35e6-402a-8aa1-6bc62552bd98", "MovieWatcher", "MOVIEWATCHER" });
 
             migrationBuilder.InsertData(
                 table: "Genres",
                 columns: new[] { "Id", "Genre", "NetflixId" },
-                values: new object[] { 1, "Sports Documentaries", 180 });
-
-            migrationBuilder.InsertData(
-                table: "Genres",
-                columns: new[] { "Id", "Genre", "NetflixId" },
-                values: new object[] { 2, "Biographical Movies", 1096 });
+                values: new object[,]
+                {
+                    { 1, "Sports Documentaries", 180 },
+                    { 2, "Biographical Movies", 1096 },
+                    { 3, "Late Night Comedies", 1402 },
+                    { 4, "Sci-Fi & Fantasy", 1492 },
+                    { 5, "Science & Nature Docs", 2595 },
+                    { 6, "Critically Acclaimed Films", 3979 },
+                    { 7, "Sports Films", 4370 },
+                    { 8, "Raunchy Comedies", 5756 },
+                    { 9, "Drama", 5763 },
+                    { 10, "Crime Films", 5284 }
+                });
 
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",

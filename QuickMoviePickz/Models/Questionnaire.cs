@@ -1,6 +1,8 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Mvc.Rendering;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -11,8 +13,9 @@ namespace QuickMoviePickz.Models
         [Key]
         public int Id { get; set; }
 
-        [Display(Name = "Genre")]
-        public GenreId Genre { get; set; }
+
+
+        
 
         [Display(Name = "Director")]
         public string Director { get; set; }
@@ -22,6 +25,15 @@ namespace QuickMoviePickz.Models
 
         [Display(Name = "Country")]
         public string Country { get; set; }
-        
+
+        [ForeignKey("GenreId")]
+        [Display(Name = "Genre")]
+        public int genreId { get; set; }
+        public GenreId Genre { get; set; }
+
+
+        [NotMapped]
+        public SelectList Genres { get; set; }
+
     }
 }

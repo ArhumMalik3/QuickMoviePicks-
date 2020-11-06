@@ -152,14 +152,14 @@ namespace QuickMoviePickz.Controllers
         public IActionResult VoteOnMovies(List<string> movieChoices)
         {
             
-            return View();
+            return View(movieChoices);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult VoteOnMovies(int id)
         {
-            return View();
+            return View(id);
         }
 
         public void GetGroupInformation(PrivateGroup privateGroup)

@@ -48,8 +48,8 @@ namespace QuickMoviePickz.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "2417a45f-df1d-4e22-a1ed-c431a9dfd587",
-                            ConcurrencyStamp = "85569806-402f-42bb-8d7c-46cafb4224c7",
+                            Id = "e2f1ffc5-89d7-44b0-ab69-ab94520c8701",
+                            ConcurrencyStamp = "70cb4de9-35e6-402a-8aa1-6bc62552bd98",
                             Name = "MovieWatcher",
                             NormalizedName = "MOVIEWATCHER"
                         });
@@ -253,6 +253,54 @@ namespace QuickMoviePickz.Migrations
                             Id = 2,
                             Genre = "Biographical Movies",
                             NetflixId = 1096
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Genre = "Late Night Comedies",
+                            NetflixId = 1402
+                        },
+                        new
+                        {
+                            Id = 4,
+                            Genre = "Sci-Fi & Fantasy",
+                            NetflixId = 1492
+                        },
+                        new
+                        {
+                            Id = 5,
+                            Genre = "Science & Nature Docs",
+                            NetflixId = 2595
+                        },
+                        new
+                        {
+                            Id = 6,
+                            Genre = "Critically Acclaimed Films",
+                            NetflixId = 3979
+                        },
+                        new
+                        {
+                            Id = 7,
+                            Genre = "Sports Films",
+                            NetflixId = 4370
+                        },
+                        new
+                        {
+                            Id = 8,
+                            Genre = "Raunchy Comedies",
+                            NetflixId = 5756
+                        },
+                        new
+                        {
+                            Id = 9,
+                            Genre = "Drama",
+                            NetflixId = 5763
+                        },
+                        new
+                        {
+                            Id = 10,
+                            Genre = "Crime Films",
+                            NetflixId = 5284
                         });
                 });
 

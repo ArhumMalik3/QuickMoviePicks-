@@ -41,7 +41,11 @@ namespace QuickMoviePickz.Controllers
         // GET: Questionnaires/Create
         public IActionResult Create()
         {
+            var genres = _context.Genres.ToList();
             Questionnaire questionnaire = new Questionnaire();
+            {
+                questionnaire.Genres = new SelectList(genres, "Id", "Genre", "NetflixId");
+            }
             return View(questionnaire);
         }
 
