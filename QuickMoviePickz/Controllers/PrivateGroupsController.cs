@@ -172,23 +172,32 @@ namespace QuickMoviePickz.Controllers
                 genres.Add(person.Questionnaire.Genre);
             }
 
-            if (genres.Count == movieWatchers.Count)
-            {
-                GetMovies(genres);
+            //if (genres.Count == movieWatchers.Count)
+            //{
+            //    GetMovies(genres);
 
-            }
+            //}
             
         }
 
-        public IActionResult GetMovies(List<GenreId> genres)
+        public IActionResult GetMovies()
         {
-            var genrelist1 = genres.ToString();
+            var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var movieWatcher = _context.MovieWatchers.Where(m => m.IdentityUserId == userId).First();
+            var myQuestionnaire = _context.Questionnaires.Where(q => q.Id == movieWatcher.QuestionnaireId).First();
+            var myGenreId = _context.Genres.Where(g => g.Id == myQuestionnaire.genreId).First();
+            var myGenre = myGenreId.NetflixId.ToString();
+
+
+
+            //var genrelist1 = genres.ToString();
             var genreList = "920,6839,7442";
             var type = "movie";
             var startYear = "1995";
             var countryList = "78,46";
 
-            var client = new RestClient("https://rapidapi.p.rapidapi.com/search?genrelist=920,6839,7442&type=movie&start_year=1995&orderby=rating&limit=5&countrylist=78,46&audio=english&offset=0&end_year=2019");
+            var client = new RestClient($"https://rapidapi.p.rapidapi.com/search?genrelist={myGenre}&type=movie&start_year=1995&orderby=rating&limit=5&countrylist=78,46&audio=english&offset=0&end_year=2019");
+            //var client = new RestClient("https://rapidapi.p.rapidapi.com/search?genrelist=920,6839,7442&type=movie&start_year=1995&orderby=rating&limit=5&countrylist=78,46&audio=english&offset=0&end_year=2019");
             var request = new RestRequest(Method.GET);
             request.AddHeader("x-rapidapi-host", "unogsng.p.rapidapi.com");
             request.AddHeader("x-rapidapi-key", PrivateAPIKeys.MovieSearchAPIKey);

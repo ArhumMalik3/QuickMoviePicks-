@@ -89,7 +89,7 @@ namespace QuickMoviePickz.Controllers
                 await _context.SaveChangesAsync();
 
 
-                return RedirectToAction("RankMovies", "PrivateGroups");
+                return RedirectToAction("GetMovies", "PrivateGroups");
             }
             return View(privateGroup);
         }
