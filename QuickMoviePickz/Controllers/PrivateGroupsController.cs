@@ -108,7 +108,7 @@ namespace QuickMoviePickz.Controllers
 
             //var privateGroup = _context.PrivateGroups.FirstOrDefault(g => g.Id == rankMoviesViewModel.GroupId);
             //< input type = "hidden" asp -for= "GroupId" value = "@Model.PrivateGroup.Id" />
-            return RedirectToAction("Details","MovieWatchers");
+            return RedirectToAction("VoteOnMovies");
         }
 
         public void GetHighestRatedMovies(PrivateGroup privategroup)
